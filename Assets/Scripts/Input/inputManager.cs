@@ -8,6 +8,7 @@ public class inputManager : MonoBehaviour
 
     [SerializeField]private playerMovement movement;
     [SerializeField]private playerCombat combat;
+    [SerializeField] private playerRage rage;
 
     private void Awake()
     {
@@ -30,12 +31,12 @@ public class inputManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        movement.Move(playerAction.Move.ReadValue<Vector2>());
+        if (!rage.enraged) movement.Move(playerAction.Move.ReadValue<Vector2>());
        
     }
     private void LateUpdate()
     {
-        movement.look(playerAction.Look.ReadValue<Vector2>());
+        if(!rage.enraged)movement.look(playerAction.Look.ReadValue<Vector2>());
     }
     private void OnEnable()
     {

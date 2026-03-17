@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
-    [Header("Player Parent Script")]
-    [SerializeField] private Player player;
+   
     [Header("Movement Components")]
    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Camera Camera;
     private GameObject playerOBJ;
     public bool isSprinting;
+    [Header("Scripts")]
+    [SerializeField] private Player player;
+    [SerializeField] private playerRage rage;
     void Start()
     {
        if(rb == null) rb = GetComponent<Rigidbody2D>();
@@ -31,7 +33,7 @@ public class playerMovement : MonoBehaviour
          moveDirection.y = input.y;
          moveDirection.x = input.x;
         float currentSpeed = isSprinting ? player.sprintSpeed : player.moveSpeed;
-         rb.linearVelocity = moveDirection * currentSpeed;
+        rb.linearVelocity = moveDirection * currentSpeed;
 
     }
 public void look(Vector3 input)

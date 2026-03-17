@@ -9,6 +9,7 @@ public class playerCombat : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] private Player player;
+    [SerializeField] private playerRage rage;
     void Start()
     {
         
@@ -23,7 +24,7 @@ public class playerCombat : MonoBehaviour
     {
         if (Time.time >= nextAttackTime) {
             nextAttackTime = Time.time + attackCooldown;
-            player.Rage += rageBuildUp;
+            if(!rage.enraged && !rage.cooldown) player.Rage += rageBuildUp;
 
         }
         //Check if attack cooldown is over
