@@ -13,8 +13,10 @@ public class inputManager : MonoBehaviour
        
         playerInput = new InputSystem_Actions();
         playerAction = playerInput.Player;
+        
         playerAction.Sprint.performed += ctx => movement.isSprinting = true;
         playerAction.Sprint.canceled += ctx => movement.isSprinting = false;
+        playerAction.Look.performed += ctx => movement.look(playerAction.Look.ReadValue<Vector2>());
 
     }
     
@@ -27,10 +29,11 @@ public class inputManager : MonoBehaviour
     private void FixedUpdate()
     {
         movement.Move(playerAction.Move.ReadValue<Vector2>());
+       
     }
     private void LateUpdate()
     {
-        movement.look(playerAction.Look.ReadValue<Vector2>());
+        
     }
     private void OnEnable()
     {
