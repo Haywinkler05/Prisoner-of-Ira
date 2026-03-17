@@ -10,7 +10,7 @@ public class inputManager : MonoBehaviour
 
     private void Awake()
     {
-       
+       Cursor.lockState = CursorLockMode.Locked;
         playerInput = new InputSystem_Actions();
         playerAction = playerInput.Player;
         playerAction.Sprint.performed += ctx => movement.isSprinting = true;
