@@ -619,8 +619,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::playerMovement
   player: {fileID: 784583674}
   rb: {fileID: 784583675}
-  moveSpeed: 8
-  sprintSpeed: 12
   isSprinting: 0
 --- !u!114 &784583674
 MonoBehaviour:
@@ -634,6 +632,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51903a666697ea49b34a9f8e956c24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  Health: 0
+  Dmg: 0
+  Rage: 0
+  moveSpeed: 8
+  sprintSpeed: 12
   player: {fileID: 784583670}
 --- !u!50 &784583675
 Rigidbody2D:
