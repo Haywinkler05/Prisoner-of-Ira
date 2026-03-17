@@ -23,7 +23,6 @@ public class playerCombat : MonoBehaviour
     {
         if (Time.time >= nextAttackTime) {
             nextAttackTime = Time.time + attackCooldown;
-            Debug.Log("Attack Preformed!");
             player.Rage += rageBuildUp;
 
         }
