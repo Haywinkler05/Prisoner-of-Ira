@@ -8,6 +8,8 @@ public class playerMovement : MonoBehaviour
     [Header("Movement Components")]
    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float sprintSpeed = 5f;
+    public bool isSprinting;
     void Start()
     {
        if(rb == null) rb = GetComponent<Rigidbody2D>();
@@ -19,13 +21,15 @@ public class playerMovement : MonoBehaviour
     {
         
     }
-    public void processMove(Vector2 input)
+    
+  public void Move(Vector2 input)
     {
-        Vector2 moveDirection = Vector2.zero;
-        input = input.normalized;
-        moveDirection.y = input.y;
-        moveDirection.x = input.x;
-        rb.linearVelocity = moveDirection * moveSpeed;
-        Debug.Log("Player Moved!");
+         Vector2 moveDirection = Vector2.zero;
+         input = input.normalized;
+         moveDirection.y = input.y;
+         moveDirection.x = input.x;
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+         rb.linearVelocity = moveDirection * currentSpeed;
+
     }
 }

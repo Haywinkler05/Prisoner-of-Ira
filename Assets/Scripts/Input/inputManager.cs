@@ -13,6 +13,9 @@ public class inputManager : MonoBehaviour
        
         playerInput = new InputSystem_Actions();
         playerAction = playerInput.Player;
+        playerAction.Sprint.performed += ctx => movement.isSprinting = true;
+        playerAction.Sprint.canceled += ctx => movement.isSprinting = false;
+
     }
     
 
@@ -23,8 +26,7 @@ public class inputManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
-        movement.processMove(playerAction.Move.ReadValue<Vector2>());
+        movement.Move(playerAction.Move.ReadValue<Vector2>());
     }
     private void OnEnable()
     {
