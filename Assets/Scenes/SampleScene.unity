@@ -523,6 +523,8 @@ GameObject:
   - component: {fileID: 784583675}
   - component: {fileID: 784583674}
   - component: {fileID: 784583673}
+  - component: {fileID: 784583678}
+  - component: {fileID: 784583677}
   - component: {fileID: 784583676}
   m_Layer: 0
   m_Name: Player
@@ -635,7 +637,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   Health: 0
   Dmg: 0
-  Rage: 0
   moveSpeed: 8
   sprintSpeed: 12
   player: {fileID: 784583670}
@@ -665,7 +666,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &784583676
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -702,6 +703,34 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &784583677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784583670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42da3d255b37b734691d0b0576ac17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::playerRage
+--- !u!114 &784583678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784583670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453beeca22dcbc44e8bca4855cfe1129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::playerCombat
+  nextAttackTime: 0
+  attackCooldown: 1
+  rageBuildUp: 0.3
+  player: {fileID: 784583674}
 --- !u!1 &841496540
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +835,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1073984779}
-  - component: {fileID: 1073984778}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -814,19 +842,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1073984778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073984777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b27438ee16e284da9f75137af76025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::inputManager
-  movement: {fileID: 784583673}
 --- !u!4 &1073984779
 Transform:
   m_ObjectHideFlags: 0
@@ -839,9 +854,56 @@ Transform:
   m_LocalPosition: {x: 0.39591, y: 0.65074, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1826051543}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1826051542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1826051543}
+  - component: {fileID: 1826051544}
+  m_Layer: 0
+  m_Name: inputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1826051543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826051542}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073984779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826051544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826051542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b27438ee16e284da9f75137af76025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::inputManager
+  movement: {fileID: 784583673}
+  combat: {fileID: 784583678}
 --- !u!1 &1905814508
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1905814509
 Transform:
   m_ObjectHideFlags: 0

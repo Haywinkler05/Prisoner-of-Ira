@@ -7,6 +7,7 @@ public class inputManager : MonoBehaviour
     private InputSystem_Actions.PlayerActions playerAction;
 
     [SerializeField]private playerMovement movement;
+    [SerializeField]private playerCombat combat;
 
     private void Awake()
     {
@@ -16,7 +17,8 @@ public class inputManager : MonoBehaviour
         
         playerAction.Sprint.performed += ctx => movement.isSprinting = true;
         playerAction.Sprint.canceled += ctx => movement.isSprinting = false;
-        playerAction.Look.performed += ctx => movement.look(playerAction.Look.ReadValue<Vector2>());
+        playerAction.Attack.performed += ctx => combat.Attack();
+        
 
     }
     
@@ -33,7 +35,7 @@ public class inputManager : MonoBehaviour
     }
     private void LateUpdate()
     {
-        
+        movement.look(playerAction.Look.ReadValue<Vector2>());
     }
     private void OnEnable()
     {
