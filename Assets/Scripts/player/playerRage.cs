@@ -12,7 +12,7 @@ public class playerRage : MonoBehaviour
 {
     [Header("Rage Stats")]
     [SerializeField] private float rage;
-    [SerializeField] private float rageMax = 1f;
+  
     [SerializeField] private float rageDrainPerSecond = 0.33f;
     [SerializeField] private float coolDownDuration = 5f;
     public bool enraged;
@@ -41,7 +41,7 @@ public class playerRage : MonoBehaviour
             case rageState.Normal:
                 rage = player.Rage;
                 closestDist = Mathf.Infinity;
-                if (rage >= rageMax)
+                if (rage >= player.maxRage)
                 { 
                     Enraged();
                 }
@@ -76,14 +76,14 @@ public class playerRage : MonoBehaviour
         currentState = rageState.Enraged;
         enraged = true;
         FindClosestEnemy();
-        float dynamicDuration = rageMax / rageDrainPerSecond;
+        float dynamicDuration = player.maxRage / rageDrainPerSecond;
         StartCoroutine(rageActive(dynamicDuration));
 
     }
     IEnumerator rageActive(float duration)
     {
         float elapsedTime = 0f;
-        float startingRage = rageMax;
+        float startingRage = player.maxRage;
 
         while (elapsedTime < duration) {
             player.Rage = Mathf.Lerp(startingRage, 0f, elapsedTime / duration);

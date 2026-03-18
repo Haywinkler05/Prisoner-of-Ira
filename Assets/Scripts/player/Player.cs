@@ -5,11 +5,12 @@ public class Player : MonoBehaviour
     [Header("Player Stats")]
     public float Health;
     public float Dmg;
-    [SerializeField, Range(0f, 1f)]private float rage;
+    public float maxRage;
+    [SerializeField]private float rage;
     public float Rage
     {
         get { return rage; }
-        set { rage = Mathf.Clamp(value, 0f, 1f); }
+        set { rage = Mathf.Clamp(value, 0f, maxRage); }
     }
     public float moveSpeed;
     public float sprintSpeed;
