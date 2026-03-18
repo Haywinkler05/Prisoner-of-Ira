@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 public enum rageState
@@ -10,8 +11,10 @@ public enum rageState
 public class playerRage : MonoBehaviour
 {
     [Header("Rage Stats")]
-    [SerializeField] private float rageBuildUp;
+    [SerializeField] private float rage;
     [SerializeField] private float rageMax = 1f;
+    [SerializeField] private float rageDrainPerSecond = 0.33f;
+    [SerializeField] private float coolDownDuration = 5f;
     public bool enraged;
     public bool cooldown;
     [SerializeField] private rageState currentState;
@@ -26,52 +29,89 @@ public class playerRage : MonoBehaviour
 
     void Start()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
         playerOBJ = player.player;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rageBuildUp = player.Rage;
+        
         switch (currentState)
         {
             case rageState.Normal:
-                cooldown = false;
-                enraged = false;
+                rage = player.Rage;
                 closestDist = Mathf.Infinity;
-                if (rageBuildUp >= rageMax)
-                {
-                    
+                if (rage >= rageMax)
+                { 
                     Enraged();
                 }
                 break;
             case rageState.Enraged:
-                if (closestEnemy != null)
-                {
-                    Vector2 enemyDir = closestEnemy.transform.position - playerOBJ.transform.position;
-                    movement.Move(enemyDir);
-                }
                 break;
             case rageState.Cooldown:
-                cooldown = true;
                 break;
         }
 
 
     }
-
-    private void Enraged()
+    private void FindClosestEnemy()
     {
-        currentState = rageState.Enraged;
-        enraged = true;
-        foreach (GameObject enemy in enemies) {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        closestDist = Mathf.Infinity;
+        closestEnemy = null;
+
+        foreach (GameObject enemy in enemies)
+        {
             float dist = Vector2.Distance(playerOBJ.transform.position, enemy.transform.position);
-            if (dist < closestDist) { 
+            if (dist < closestDist)
+            {
                 closestDist = dist;
                 closestEnemy = enemy;
             }
         }
-        
+    }
+    private void Enraged()
+    {
+        currentState = rageState.Enraged;
+        enraged = true;
+        FindClosestEnemy();
+        float dynamicDuration = rageMax / rageDrainPerSecond;
+        StartCoroutine(rageActive(dynamicDuration));
+
+    }
+    IEnumerator rageActive(float duration)
+    {
+        float elapsedTime = 0f;
+        float startingRage = rageMax;
+
+        while (elapsedTime < duration) {
+            player.Rage = Mathf.Lerp(startingRage, 0f, elapsedTime / duration);
+            if (closestEnemy != null)
+            {
+                Vector2 enemyDir = (closestEnemy.transform.position - playerOBJ.transform.position).normalized;
+                movement.Move(enemyDir);
+            }
+            else
+            {
+                FindClosestEnemy() ;
+            }
+
+                elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        player.Rage = 0f;
+        StartCoroutine(cooldownRoutine());
+    }
+
+    IEnumerator cooldownRoutine()
+    {
+        currentState = rageState.Cooldown;
+        enraged = false;
+        cooldown = true;
+        yield return new WaitForSeconds(coolDownDuration);
+
+        cooldown = false;
+        currentState = rageState.Normal;
     }
 } 
