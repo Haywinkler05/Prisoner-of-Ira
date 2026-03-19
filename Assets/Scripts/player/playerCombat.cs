@@ -1,12 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
 public class playerCombat : MonoBehaviour
 {
     [Header("Attack Stats")]
     [SerializeField] private float nextAttackTime = 0f;
+    [SerializeField] private float attackAnimLength = 0.500f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float rageBuildUp = 0.3f;
-
+    [Header("Detection")]
+    public Transform attackPoint;
+    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private LayerMask enemyLayer;
     [Header("Scripts")]
     [SerializeField] private Player player;
     [SerializeField] private playerRage rage;
@@ -26,13 +31,24 @@ public class playerCombat : MonoBehaviour
             player.anim.SetTrigger("2_Attack");
             nextAttackTime = Time.time + attackCooldown;
             if(!rage.enraged && !rage.cooldown) player.Rage += rageBuildUp;
-
+            StartCoroutine(preformHitCheck());
         }
-        //Check if attack cooldown is over
-            //If it is, play the attack
-            //update the rage bar in player
-            //Check if the player's weapons hitbox hit an enemy
-            //Check with combatManager to deal damage to enemies
-        //Otherwise don't play attack
+    }
+    private IEnumerator preformHitCheck()
+    {
+        yield return new WaitForSeconds(attackAnimLength);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange, enemyLayer);
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            combatManager.Instance.requestDamage(enemy.gameObject, player.damage);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

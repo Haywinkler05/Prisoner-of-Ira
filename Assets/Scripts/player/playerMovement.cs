@@ -14,6 +14,7 @@ public class playerMovement : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private Player player;
     [SerializeField] private playerRage rage;
+    [SerializeField] private playerCombat combat;
     void Start()
     {
        if(rb == null) rb = GetComponent<Rigidbody2D>();
@@ -44,6 +45,8 @@ public class playerMovement : MonoBehaviour
             player.anim.SetFloat("animSpeed", isMovingVertical ? 1.5f : 1f);
             if (input.x > 0) player.player.transform.localScale = new Vector3(-1, 1, 1);
             else if (input.x < 0) player.player.transform.localScale = new Vector3(1, 1, 1);
+            if(input.x > 0) { combat.attackPoint.localPosition = new Vector3(0.5f, 0, 0); }
+            else if(input.x < 0) { combat.attackPoint.localPosition = new Vector3(-0.5f, 0 , 0); }   
         }
         else
         {

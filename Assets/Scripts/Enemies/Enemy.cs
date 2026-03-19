@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
@@ -17,9 +17,13 @@ public abstract class Enemy : MonoBehaviour
     public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } } 
 
 
-    public void takeDamage(float incomingDamage)
+    public void TakeDamage(float incomingDamage)
     {
         _health -= incomingDamage;
+        if (_health <= 0)
+        {
+            Die();
+        }
     }
     public void Die()
     {
