@@ -1405,7 +1405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::spawnEnemy
   spawnArea: {fileID: 1131779145}
-  spawnRadius: 1
+  spawnRadius: 10
   maxSpawnAtOnce: 2
   enemyTypes:
   - {fileID: 3098677931070792179, guid: 054ba40afec2a5a46aa7f27a353ddf96, type: 3}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour, IDamageable
@@ -7,6 +8,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float _damage;
     [SerializeField] private float _maxDamage;
     [SerializeField] private float _moveSpeed;
+    public Animator _animator;
+    [SerializeField] private float _deathAnimLength = 0.667f;
 
 
 
@@ -27,9 +30,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     }
     public void Die()
     {
+        _animator.SetTrigger("4_Death");
+        StartCoroutine(death());
+    }
+    private IEnumerator death()
+    {
+        yield return new WaitForSeconds(_deathAnimLength);
         gameManager.instance.onEnemyDeath();
         Destroy(gameObject);
     }
-
 
 }

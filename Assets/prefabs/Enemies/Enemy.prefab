@@ -51,6 +51,7 @@ MonoBehaviour:
   _damage: 0
   _maxDamage: 0
   _moveSpeed: 0
+  _animator: {fileID: 3538296477234749825}
 --- !u!61 &2712633088590717373
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -526,6 +527,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
+--- !u!95 &3538296477234749825 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4711161975871159974, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
+  m_PrefabInstance: {fileID: 8105324004685340455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6163600944690598547 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2734361560636771764, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
