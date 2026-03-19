@@ -22,9 +22,11 @@ public class playerRage : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject playerOBJ;
     [SerializeField] private GameObject closestEnemy = null;
+    [SerializeField] private float attackStopDistance = 1.2f;
     [SerializeField] private float closestDist = Mathf.Infinity;
     [Header("Scripts")]
     [SerializeField] private Player player;
+    [SerializeField] private playerCombat combat;
     [SerializeField] private playerMovement movement;
 
     void Start()
@@ -89,13 +91,24 @@ public class playerRage : MonoBehaviour
             player.Rage = Mathf.Lerp(startingRage, 0f, elapsedTime / duration);
             if (closestEnemy != null)
             {
-                Vector2 enemyDir = (closestEnemy.transform.position - playerOBJ.transform.position).normalized;
-                movement.Move(enemyDir);
+                float distToEnemy = Vector2.Distance(player.player.transform.position, closestEnemy.transform.position);
+                if (distToEnemy <= attackStopDistance)
+                {
+                    movement.Move(Vector2.zero);
+                    combat.Attack();
+                }
+                else
+                {
+                    Vector2 enemyDir = (closestEnemy.transform.position - playerOBJ.transform.position).normalized;
+                    movement.Move(enemyDir);
+                }
+                   
             }
-            else
+            else if(closestEnemy == null) 
             {
                 FindClosestEnemy() ;
             }
+           
 
                 elapsedTime += Time.deltaTime;
             yield return null;
