@@ -10,7 +10,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] private float rageBuildUp = 0.3f;
     [Header("Detection")]
     public Transform attackPoint;
-    [SerializeField] private float attackRange = 0.5f;
+     public float attackRange = 0.5f;
     [SerializeField] private LayerMask enemyLayer;
     [Header("Scripts")]
     [SerializeField] private Player player;

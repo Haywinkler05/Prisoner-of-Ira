@@ -31,6 +31,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void Die()
     {
         _animator.SetTrigger("4_Death");
+        GetComponent<Collider2D>().enabled = false;
         StartCoroutine(death());
     }
     private IEnumerator death()

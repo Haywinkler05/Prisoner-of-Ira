@@ -94,12 +94,15 @@ public class playerRage : MonoBehaviour
                 float distToEnemy = Vector2.Distance(player.player.transform.position, closestEnemy.transform.position);
                 if (distToEnemy <= attackStopDistance)
                 {
+                    Vector2 enemyDir = (closestEnemy.transform.position - playerOBJ.transform.position).normalized;
+                    combat.attackPoint.localPosition = enemyDir * combat.attackRange;
                     movement.Move(Vector2.zero);
                     combat.Attack();
                 }
                 else
                 {
                     Vector2 enemyDir = (closestEnemy.transform.position - playerOBJ.transform.position).normalized;
+                    combat.attackPoint.localPosition = enemyDir * combat.attackRange;
                     movement.Move(enemyDir);
                 }
                    
