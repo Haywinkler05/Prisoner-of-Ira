@@ -27,6 +27,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     }
     public void Die()
     {
+        gameManager.instance.onEnemyDeath();
         Destroy(gameObject);
     }
 
