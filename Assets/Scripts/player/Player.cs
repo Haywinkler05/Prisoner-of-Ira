@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
     }
     public float moveSpeed;
     public float sprintSpeed;
-    [Header("Player Object")]
+    [Header("Player components")]
     public GameObject player;
+    public Animator anim;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

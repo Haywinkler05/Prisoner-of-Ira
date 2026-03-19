@@ -36,7 +36,7 @@ public class inputManager : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if(!rage.enraged)movement.look(playerAction.Look.ReadValue<Vector2>());
+        
     }
     private void OnEnable()
     {

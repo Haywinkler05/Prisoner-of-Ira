@@ -23,6 +23,7 @@ public class playerCombat : MonoBehaviour
     public void Attack()
     {
         if (Time.time >= nextAttackTime) {
+            player.anim.SetTrigger("2_Attack");
             nextAttackTime = Time.time + attackCooldown;
             if(!rage.enraged && !rage.cooldown) player.Rage += rageBuildUp;
 
