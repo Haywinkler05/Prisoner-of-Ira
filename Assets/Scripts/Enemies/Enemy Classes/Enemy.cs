@@ -21,7 +21,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public Animator _animator;
     [SerializeField] private float _deathAnimLength = 0.667f;
     [SerializeField] private float attackStopDistance = 1.2f;
+    [SerializeField] protected float attackPointX;
+    [SerializeField] protected float attackPointY;
     protected enemyStates currentState;
+    [SerializeField] protected GameObject enemy;
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] private Transform playerPos;
     [SerializeField] protected Transform attackPoint;
@@ -43,23 +46,35 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     }
     protected virtual void Update()
     {
+        distToPlayer = Vector2.Distance(playerPos.position, enemy.transform.position);
         switch (currentState)
         {
             case enemyStates.chase:
-               Vector2 playerDir = (playerPos.position - this.transform.position).normalized;
+               Vector2 playerDir = (playerPos.position - enemy.transform.position).normalized;
                 rb.linearVelocity = playerDir * enemyMoveSpeed;
-                distToPlayer = Vector2.Distance(playerPos.position, this.transform.position);
+                _animator.SetBool("1_Move", true);
+                bool isMovingVertical = Mathf.Abs(playerDir.y) > 0.5f;
+               _animator.SetFloat("animSpeed", isMovingVertical ? 1.5f : 1f);
+               if(playerDir.x > 0) enemy.transform.localScale = new Vector3(-1,1, 1);
+              if(playerDir.x < 0) enemy.transform.localScale = new Vector3(1,1,1);
+              if (playerDir.x > 0) attackPoint.localPosition= new Vector3(attackPointX, attackPointY,0);
+              if (playerDir.x < 0) attackPoint.localPosition = new Vector3(-attackPointX, attackPointY, 0);
+                
+               
+                  
                 if(distToPlayer <= attackStopDistance)
                 {
                     rb.linearVelocity = Vector2.zero;
+                    _animator.SetBool("1_Move", false);
                     currentState = enemyStates.attack;
 
                 }
 
                 break;
             case enemyStates.attack:
-                 distToPlayer = Vector2.Distance(playerPos.position, this.transform.position);
+               
                 if (distToPlayer >= attackStopDistance) {
+                    _animator.SetBool("1_Move", true);
                     currentState = enemyStates.chase;
                 }
                 else

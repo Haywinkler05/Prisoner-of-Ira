@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamageable
     }
     public float damage { get { return _Dmg; } protected set { _Dmg = value; } }
     public float moveSpeed;
+    public float damageRageBuildUp;
     public float sprintSpeed;
     [Header("Player components")]
     public GameObject player;
@@ -32,6 +33,17 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        
+        Health -= amount;
+        rage += damageRageBuildUp;
+        if (Health <= 0f) {
+
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        anim.SetTrigger("4_Death");
+        Debug.Log("Game Over");
     }
 }

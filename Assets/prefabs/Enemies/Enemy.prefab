@@ -60,12 +60,15 @@ MonoBehaviour:
   _animator: {fileID: 3538296477234749825}
   _deathAnimLength: 0.667
   attackStopDistance: 1.2
+  attackPointX: 0.5
+  attackPointY: 0.476
+  enemy: {fileID: 6686883763042193903}
   rb: {fileID: 5929131389335786693}
-  playerPos: {fileID: 0}
+  playerPos: {fileID: 6163600944690598547}
   attackPoint: {fileID: 8898042671282815149}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   enemyMoveSpeed: 5
 --- !u!61 &2712633088590717373
 BoxCollider2D:
@@ -165,7 +168,7 @@ Transform:
   m_GameObject: {fileID: 3531383592830486649}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.62, y: 0.256, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.476, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -393,7 +396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3222167648754355912, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
       propertyPath: m_Name
-      value: HumanEnemy1
+      value: Model
       objectReference: {fileID: 0}
     - target: {fileID: 3222167648754355912, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
       propertyPath: m_Layer
@@ -608,5 +611,10 @@ Animator:
 --- !u!224 &6163600944690598547 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2734361560636771764, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
+  m_PrefabInstance: {fileID: 8105324004685340455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6686883763042193903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3222167648754355912, guid: 6a1158b8c77e74152951cddb6f1d77de, type: 3}
   m_PrefabInstance: {fileID: 8105324004685340455}
   m_PrefabAsset: {fileID: 0}
