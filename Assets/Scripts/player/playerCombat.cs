@@ -44,7 +44,10 @@ public class playerCombat : MonoBehaviour
             combatManager.Instance.requestDamage(enemy.gameObject, player.damage);
         }
     }
-
+    public void modifyRageBuildUp(float amount)
+    {
+        rageBuildUp *= amount;
+    }
     void OnDrawGizmosSelected()
     {
         if (attackPoint == null) return;
