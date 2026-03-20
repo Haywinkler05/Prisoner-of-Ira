@@ -30,6 +30,7 @@ public class playerCombat : MonoBehaviour
         if (Time.time >= nextAttackTime) {
             player.anim.SetTrigger("2_Attack");
             nextAttackTime = Time.time + attackCooldown;
+            player.OnAttack();
             if(!rage.enraged && !rage.cooldown) player.Rage += rageBuildUp;
             StartCoroutine(preformHitCheck());
         }

@@ -12,7 +12,7 @@ public class playerRage : MonoBehaviour
 {
     [Header("Rage Stats")]
     [SerializeField] private float rage;
-  
+    [SerializeField] private float rageDecayRate = 0.1f;
     [SerializeField] private float rageDrainPerSecond = 0.33f;
     [SerializeField] private float coolDownDuration = 5f;
     public bool enraged;
@@ -41,9 +41,12 @@ public class playerRage : MonoBehaviour
         switch (currentState)
         {
             case rageState.Normal:
-                rage = player.Rage;
+                if (Time.time > player.lastAttackTime + 2f)
+                {
+                    player.Rage -= rageDecayRate * Time.deltaTime;
+                }
                 closestDist = Mathf.Infinity;
-                if (rage >= player.maxRage)
+                if (player.Rage >= player.maxRage)
                 { 
                     Enraged();
                 }

@@ -6,7 +6,9 @@ public class Player : MonoBehaviour, IDamageable
     public float Health;
     public float _Dmg;
     public float maxRage;
+    public float lastAttackTime;
     [SerializeField]private float rage;
+    [SerializeField] private playerRage rageScript;
     public float Rage
     {
         get { return rage; }
@@ -30,11 +32,14 @@ public class Player : MonoBehaviour, IDamageable
     {
         
     }
-
+    public void OnAttack()
+    {
+        lastAttackTime = Time.time;
+    }
     public void TakeDamage(float amount)
     {
         Health -= amount;
-        rage += damageRageBuildUp;
+        if(!rageScript.cooldown && !rageScript.enraged)rage += damageRageBuildUp;
         if (Health <= 0f) {
 
             Die();
