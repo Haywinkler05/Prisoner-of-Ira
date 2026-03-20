@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7188062827535171725}
   - component: {fileID: 7817085767775597779}
   - component: {fileID: 2712633088590717373}
+  - component: {fileID: 5929131389335786693}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -31,6 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8898042671282815149}
   - {fileID: 5155086816599259936}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,12 +48,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a187292c8f39540b562e7a924c421f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::humanEnemy
-  _health: 15
+  _health: 100
   _maxHealth: 0
-  _damage: 0
+  _damage: 10
   _maxDamage: 0
-  _moveSpeed: 0
+  _moveSpeed: 5
+  nextAttackTime: 0
+  attackAnimLength: 0.5
+  attackCooldown: 1
+  attackRange: 0.5
   _animator: {fileID: 3538296477234749825}
+  _deathAnimLength: 0.667
+  attackStopDistance: 1.2
+  rb: {fileID: 5929131389335786693}
+  playerPos: {fileID: 0}
+  attackPoint: {fileID: 8898042671282815149}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  enemyMoveSpeed: 5
 --- !u!61 &2712633088590717373
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -98,6 +113,64 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.8701727}
   m_EdgeRadius: 0
+--- !u!50 &5929131389335786693
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3098677931070792179}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!1 &3531383592830486649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8898042671282815149}
+  m_Layer: 0
+  m_Name: attackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8898042671282815149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531383592830486649}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.62, y: 0.256, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7188062827535171725}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3553978545552809597
 GameObject:
   m_ObjectHideFlags: 0

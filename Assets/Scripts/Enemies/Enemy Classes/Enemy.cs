@@ -1,6 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
+public enum enemyStates
+{
+    chase,
+    attack
+}
 public abstract class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _health;
@@ -8,8 +13,20 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float _damage;
     [SerializeField] private float _maxDamage;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private float nextAttackTime = 0f;
+    [SerializeField] private float attackAnimLength = 0.500f;
+    [SerializeField] private float attackCooldown = 1f;
+    public float attackRange = 0.5f;
+    private float distToPlayer;
     public Animator _animator;
     [SerializeField] private float _deathAnimLength = 0.667f;
+    [SerializeField] private float attackStopDistance = 1.2f;
+    protected enemyStates currentState;
+    [SerializeField] protected Rigidbody2D rb;
+    [SerializeField] private Transform playerPos;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] private LayerMask playerLayer;
+    public float enemyMoveSpeed;
 
 
 
@@ -17,9 +34,46 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public float MaxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
     public float Damage { get { return _damage; } set { _damage = value; } }
     public float MaxDamage { get { return _maxDamage; } set { _maxDamage = value; } }
-    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } } 
+    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+  
+    protected virtual void Start()
+    {
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        currentState = enemyStates.chase;
+    }
+    protected virtual void Update()
+    {
+        switch (currentState)
+        {
+            case enemyStates.chase:
+               Vector2 playerDir = (playerPos.position - this.transform.position).normalized;
+                rb.linearVelocity = playerDir * enemyMoveSpeed;
+                distToPlayer = Vector2.Distance(playerPos.position, this.transform.position);
+                if(distToPlayer <= attackStopDistance)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                    currentState = enemyStates.attack;
 
+                }
 
+                break;
+            case enemyStates.attack:
+                 distToPlayer = Vector2.Distance(playerPos.position, this.transform.position);
+                if (distToPlayer >= attackStopDistance) {
+                    currentState = enemyStates.chase;
+                }
+                else
+                {
+                    if(Time.time >= nextAttackTime)
+                    {
+                        _animator.SetTrigger("2_Attack");
+                        nextAttackTime = Time.time + attackCooldown;
+                        StartCoroutine(preformHitCheck());
+                    }
+                }
+                    break;
+        }
+    }
     public void TakeDamage(float incomingDamage)
     {
         _health -= incomingDamage;
@@ -40,5 +94,19 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         gameManager.instance.onEnemyDeath();
         Destroy(gameObject);
     }
+    private IEnumerator preformHitCheck()
+    {
+        yield return new WaitForSeconds(attackAnimLength);
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
+        foreach (Collider2D hit in hitPlayer) {
+            combatManager.Instance.requestDamage(hit.gameObject, _damage);
+        }
+    }
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
 
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 }
