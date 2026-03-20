@@ -51,6 +51,9 @@ TagManager:
   - name: Props
     uniqueID: 503812739
     locked: 0
+  - name: PropsOnOtherProps
+    uniqueID: 587247541
+    locked: 0
   - name: Characters
     uniqueID: 3800932847
     locked: 0
