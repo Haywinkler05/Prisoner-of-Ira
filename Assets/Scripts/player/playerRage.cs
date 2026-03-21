@@ -89,7 +89,7 @@ public class playerRage : MonoBehaviour
     {
         float elapsedTime = 0f;
         float startingRage = player.maxRage;
-
+        yield return new WaitForSeconds(0.5f);
         while (elapsedTime < duration) {
             player.Rage = Mathf.Lerp(startingRage, 0f, elapsedTime / duration);
             if (closestEnemy != null)
@@ -128,8 +128,16 @@ public class playerRage : MonoBehaviour
         currentState = rageState.Cooldown;
         enraged = false;
         cooldown = true;
-        yield return new WaitForSeconds(coolDownDuration);
+        float elapsedTime = 0f;
+        float startRage = player.maxRage;
+        while(elapsedTime < coolDownDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            player.Rage = Mathf.Lerp(startRage, 0f, elapsedTime / coolDownDuration);
+            yield return null;
+        }
 
+        player.Rage = 0f;
         cooldown = false;
         currentState = rageState.Normal;
     }
