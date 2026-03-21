@@ -145,4 +145,5 @@ MonoBehaviour:
   combat: {fileID: 0}
   rage: {fileID: 0}
   movement: {fileID: 0}
+  upgradeManager: {fileID: 0}
   ragePercent: 0.5

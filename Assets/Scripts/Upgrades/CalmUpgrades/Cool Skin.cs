@@ -4,7 +4,7 @@ public class CoolSkin : Upgrades
 {
     public override string upgradeName => "Cool Skin";
 
-    public override string upgradeDescription => "Being imprisoned has taught you a few things, you're stronger when you're calm. However, its much harder to contain the rage";
+    public override string upgradeDescription => "+2x damage, but rage builds twice as fast.";
     private float damageMutipler = 2f;
     private float rageMutipler = 2f;
 

@@ -16,9 +16,11 @@ public abstract class Upgrades : MonoBehaviour, IUpgradable
     [SerializeField] protected playerMovement movement;
     [SerializeField] private upgradeManager upgradeManager;
     
+
     void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject promptUI = GameObject.FindGameObjectWithTag("UI");
 
         if (playerObj != null)
         {
@@ -28,6 +30,7 @@ public abstract class Upgrades : MonoBehaviour, IUpgradable
             rage = playerObj.GetComponentInChildren<playerRage>();
             movement = playerObj.GetComponentInChildren<playerMovement>();
         }
+        
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +38,7 @@ public abstract class Upgrades : MonoBehaviour, IUpgradable
         {
             
             currentUpgrade = this;
+            upgradePromptUI.instance.Show(upgradeName, upgradeDescription);
         }
     }
 
@@ -44,6 +48,7 @@ public abstract class Upgrades : MonoBehaviour, IUpgradable
         {
             
             currentUpgrade = null;
+            upgradePromptUI.instance.Hide();
         }
     }
     public abstract void Apply();

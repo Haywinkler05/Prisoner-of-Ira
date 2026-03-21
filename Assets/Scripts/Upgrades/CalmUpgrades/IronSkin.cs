@@ -4,7 +4,7 @@ public class IronSkin : Upgrades
 {
     public override string upgradeName => "Iron Skin";
 
-    public override string upgradeDescription => "Your years of keeping your rage composed completely nullifes rage build up from others and you have become a lot tougher. However, attacking others reminds you of what you once were, and your rage doubles as you attack.";
+    public override string upgradeDescription => "Nullifies rage from taking damage. Attack rage buildup doubled. +50% Health.";
 
     public override void Apply()
     {
