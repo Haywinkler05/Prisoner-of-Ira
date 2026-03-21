@@ -6,7 +6,7 @@ public class playerCombat : MonoBehaviour
     [Header("Attack Stats")]
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private float attackAnimLength = 0.500f;
-    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] public float attackCooldown = 1f;
     [SerializeField] private float rageBuildUp = 0.3f;
     [Header("Detection")]
     public Transform attackPoint;

@@ -4,6 +4,7 @@ public class Player : MonoBehaviour, IDamageable
 {
     [Header("Player Stats")]
     public float Health;
+    public float MaxHealth;
     public float _Dmg;
     public float rageDamage;
     public float maxRage;
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour, IDamageable
     public float rageDmgReduction;
     [SerializeField]private float rage;
     [SerializeField] private playerRage rageScript;
+    [SerializeField] private playerCombat combat;
     public float Rage
     {
         get { return rage; }
@@ -26,7 +28,8 @@ public class Player : MonoBehaviour, IDamageable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Health = MaxHealth;
+        lastAttackTime = -combat.attackCooldown;
     }
 
     // Update is called once per frame
