@@ -215,7 +215,7 @@ MonoBehaviour:
   totalWaves: 3
   enemiesAlive: 0
   enemiesSpawnedThisWave: 0
-  maxEnemiesThisWave: 10
+  maxEnemiesThisWave: 2
   wave1ActiveLimit: 2
   wave2ActiveLimit: 4
   wave3ActiveLimit: 8
@@ -1360,7 +1360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8855350603246916911, guid: c555c6ffc4e330a4bb55721f6a5ef426, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.459
+      value: 1.5527501
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8722,8 +8722,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   Health: 100
   _Dmg: 15
+  rageDamage: 30
   maxRage: 1
   lastAttackTime: 0
+  rageDmgReduction: 0
   rage: 0
   rageScript: {fileID: 963847666}
   moveSpeed: 8
@@ -8987,6 +8989,59 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &947695744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 947695745}
+  - component: {fileID: 947695746}
+  m_Layer: 0
+  m_Name: upgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &947695745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947695744}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073984779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &947695746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947695744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d34131ddec7544cbe9f532610313ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::upgradeManager
+  coolUpgrades:
+  - {fileID: 4913360267892527433, guid: 958b5ca93f7951e449535fb8439ee90e, type: 3}
+  - {fileID: 7410806418169791601, guid: 19d3a2f5f1e06074f88e415a6d916687, type: 3}
+  rageUpgrades:
+  - {fileID: 4211916345559903688, guid: 378ebb2b9751db74ca695d0675f68ae2, type: 3}
+  - {fileID: 1984888217331510936, guid: fa2d2d41f67c93e469e41efbb23c2256, type: 3}
+  upgrade1Spawn: {fileID: 1179354722}
+  upgrade2Spawn: {fileID: 1000671273}
+  hasUpgraded: 0
 --- !u!1 &963847664
 GameObject:
   m_ObjectHideFlags: 0
@@ -11122,6 +11177,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1000671272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1000671273}
+  m_Layer: 0
+  m_Name: UpgradeSpawn2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1000671273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000671272}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 21.5625, y: -5.625, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073984777
 GameObject:
   m_ObjectHideFlags: 0
@@ -11154,6 +11240,7 @@ Transform:
   - {fileID: 1826051543}
   - {fileID: 309681349}
   - {fileID: 52222479}
+  - {fileID: 947695745}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1139066969
@@ -11258,6 +11345,37 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1179354720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1179354722}
+  m_Layer: 0
+  m_Name: UpgradeSpawn1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1179354722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179354720}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 23.28125, y: -5.625, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1250637896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6873661223484744056, guid: 35dd3fb4ba4d64845bc8225ae1796b6a, type: 3}
@@ -11312,6 +11430,37 @@ MonoBehaviour:
   rageBarText: {fileID: 721518902}
   player: {fileID: 784583674}
   rage: {fileID: 963847666}
+--- !u!1 &1356618468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1356618469}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1356618469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356618468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.90228, y: -5.14871, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1624936117
 GameObject:
   m_ObjectHideFlags: 0
@@ -13727,3 +13876,6 @@ SceneRoots:
   - {fileID: 424840335}
   - {fileID: 49362704}
   - {fileID: 605807731}
+  - {fileID: 1356618469}
+  - {fileID: 1000671273}
+  - {fileID: 1179354722}

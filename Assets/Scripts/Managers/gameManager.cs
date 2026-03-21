@@ -17,6 +17,7 @@ public class gameManager : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] private spawnEnemy spawn;
+  
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class gameManager : MonoBehaviour
     }
     private void Start()
     {
+        upgradeManager.instance.hasUpgraded = true;
         startWave();
     }
     public void onEnemyDeath()
@@ -36,10 +38,12 @@ public class gameManager : MonoBehaviour
         }
         else if (enemiesSpawnedThisWave >= maxEnemiesThisWave && enemiesAlive <= 0)
         {
-            startWave();
+            upgradeManager.instance.hasUpgraded = false;
+            upgradeManager.instance.spawnUpgrades();
+            
         }
     }
-    private void startWave()
+    public void startWave()
     {
         currentWave++;
         if (currentWave > totalWaves) { Debug.Log("You win!"); return; }
@@ -53,7 +57,7 @@ public class gameManager : MonoBehaviour
             case 3:
                 currentActiveLimit = wave3ActiveLimit; break;
         }
-        spawnEnemiesAtWaveStart();
+        if(upgradeManager.instance.hasUpgraded) spawnEnemiesAtWaveStart();
     }
     private void spawnEnemiesAtWaveStart()
     {

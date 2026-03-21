@@ -9,6 +9,7 @@ public class inputManager : MonoBehaviour
     [SerializeField]private playerMovement movement;
     [SerializeField]private playerCombat combat;
     [SerializeField] private playerRage rage;
+    
 
     private void Awake()
     {
@@ -19,7 +20,8 @@ public class inputManager : MonoBehaviour
         playerAction.Sprint.performed += ctx => movement.isSprinting = true;
         playerAction.Sprint.canceled += ctx => movement.isSprinting = false;
         playerAction.Attack.performed += ctx => combat.Attack();
-        
+        playerAction.Interact.performed += ctx => {if (Upgrades.currentUpgrade != null) Upgrades.currentUpgrade.upgradePickUp(); }; ;
+
 
     }
     

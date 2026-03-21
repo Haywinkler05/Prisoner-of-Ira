@@ -13,6 +13,7 @@ public class CoolSkin : Upgrades
         Player.modifyDamage(damageMutipler);
         combat.modifyRageBuildUp(rageMutipler);
     }
+    
 
-   
+
 }
