@@ -5,8 +5,10 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Player Stats")]
     public float Health;
     public float _Dmg;
+    public float rageDamage;
     public float maxRage;
     public float lastAttackTime;
+    public float rageDmgReduction;
     [SerializeField]private float rage;
     [SerializeField] private playerRage rageScript;
     public float Rage
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float amount)
     {
+        float finalDamage = rageScript.enraged ? amount * rageDmgReduction : amount;
         Health -= amount;
         if(!rageScript.cooldown && !rageScript.enraged)rage += damageRageBuildUp;
         if (Health <= 0f) {
@@ -45,7 +48,15 @@ public class Player : MonoBehaviour, IDamageable
             Die();
         }
     }
-
+    public void modifyDamage(float amount)
+    {
+        damage *= amount;
+    }
+    public void modifyRageMutiplyer(float amount)
+    {
+        rageDamage *= amount;
+    }
+ 
     private void Die()
     {
         anim.SetTrigger("4_Death");

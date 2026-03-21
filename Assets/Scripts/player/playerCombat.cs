@@ -41,7 +41,8 @@ public class playerCombat : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange, enemyLayer);
         foreach(Collider2D enemy in hitEnemies)
         {
-            combatManager.Instance.requestDamage(enemy.gameObject, player.damage);
+            float finalDmg = rage.enraged ? player.rageDamage : player.damage;
+            combatManager.Instance.requestDamage(enemy.gameObject, finalDmg);
         }
     }
     public void modifyRageBuildUp(float amount)

@@ -59,10 +59,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
               if(playerDir.x < 0) enemy.transform.localScale = new Vector3(1,1,1);
               if (playerDir.x > 0) attackPoint.localPosition= new Vector3(attackPointX, attackPointY,0);
               if (playerDir.x < 0) attackPoint.localPosition = new Vector3(-attackPointX, attackPointY, 0);
-                
-               
-                  
-                if(distToPlayer <= attackStopDistance)
+                Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, 1f, LayerMask.GetMask("enemy"));
+                foreach (Collider2D nearby in nearbyEnemies)
+                {
+                    if (nearby.gameObject != gameObject)
+                    {
+                        Vector2 pushDir = (transform.position - nearby.transform.position).normalized;
+                        rb.AddForce(pushDir * 2f);
+                    }
+                }
+
+
+                if (distToPlayer <= attackStopDistance)
                 {
                     rb.linearVelocity = Vector2.zero;
                     _animator.SetBool("1_Move", false);
