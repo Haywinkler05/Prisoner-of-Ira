@@ -29,6 +29,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Transform playerPos;
     [SerializeField] protected Transform attackPoint;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private EnemyHealthUI healthUI;
     public float enemyMoveSpeed;
 
 
@@ -100,6 +101,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage(float incomingDamage)
     {
         _health -= incomingDamage;
+        healthUI.onDamageTaken();
         if (_health <= 0)
         {
             Die();
