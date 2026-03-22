@@ -108,11 +108,11 @@ public class gameManager : MonoBehaviour
         if (EscapeTimer.instance != null)
         {
             EscapeTimer.instance.StopTimer();
-            timeText.text = EscapeTimer.instance.GetFinalTime();
+            timeText.text = "Best Time: " + EscapeTimer.instance.GetFinalTime();
         }
 
-        
 
+        GameWin.instance.Show();
         if (MusicManager.instance != null) MusicManager.instance.TargetRage = 0f;
     }
 }

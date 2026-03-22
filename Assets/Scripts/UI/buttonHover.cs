@@ -25,13 +25,15 @@ public class buttonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void Update()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
-    }
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.unscaledDeltaTime * scaleSpeed);
+    
+}
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         CanvasGroup cg = GetComponent<CanvasGroup>();
-        if (cg != null && cg.alpha < 1f) return;
+        if (cg != null && !cg.blocksRaycasts) return;
+
         targetScale = originalScale * hoverScale;
         if (hoverSound != null)
             audioSource.PlayOneShot(hoverSound);
