@@ -68,6 +68,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Die()
     {
         anim.SetTrigger("4_Death");
-        Debug.Log("Game Over");
+       
+        gameOver.instance.Show();
     }
 }
