@@ -141,4 +141,15 @@ public class playerRage : MonoBehaviour
         cooldown = false;
         currentState = rageState.Normal;
     }
+    private bool isDead = false;
+
+    public void StopRage()
+    {
+        isDead = true;
+        StopAllCoroutines();
+        enraged = false;
+        cooldown = false;
+        currentState = rageState.Normal;
+        player.Rage = 0f;
+    }
 } 
