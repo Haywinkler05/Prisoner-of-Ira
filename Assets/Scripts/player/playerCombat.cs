@@ -12,6 +12,10 @@ public class playerCombat : MonoBehaviour
     public Transform attackPoint;
      public float attackRange = 0.5f;
     [SerializeField] private LayerMask enemyLayer;
+    [Header("Audio")]
+    [SerializeField] private AudioSource attackSource;
+    [SerializeField] private AudioClip missClip;
+    [SerializeField] private AudioClip hitClip;
     [Header("Scripts")]
     [SerializeField] private Player player;
     [SerializeField] private playerRage rage;
@@ -29,6 +33,7 @@ public class playerCombat : MonoBehaviour
     {
         if (Time.time >= nextAttackTime) {
             player.anim.SetTrigger("2_Attack");
+            attackSource.PlayOneShot(missClip);
             nextAttackTime = Time.time + attackCooldown;
             player.OnAttack();
             if(!rage.enraged && !rage.cooldown) player.Rage += rageBuildUp;
@@ -39,11 +44,17 @@ public class playerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(attackAnimLength);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange, enemyLayer);
-        foreach(Collider2D enemy in hitEnemies)
+        if(hitEnemies.Length > 0)
         {
-            float finalDmg = rage.enraged ? player.rageDamage : player.damage;
-            combatManager.Instance.requestDamage(enemy.gameObject, finalDmg);
+            attackSource.PlayOneShot(hitClip);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                float finalDmg = rage.enraged ? player.rageDamage : player.damage;
+                combatManager.Instance.requestDamage(enemy.gameObject, finalDmg);
+            }
         }
+        
+        
     }
     public void modifyRageBuildUp(float amount)
     {
