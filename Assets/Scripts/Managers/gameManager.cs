@@ -111,7 +111,7 @@ public class gameManager : MonoBehaviour
             timeText.text = EscapeTimer.instance.GetFinalTime();
         }
 
-        Time.timeScale = 0f;
+        
 
         if (MusicManager.instance != null) MusicManager.instance.TargetRage = 0f;
     }

@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gameManager
   currentWave: 0
-  totalWaves: 1
+  totalWaves: 3
   enemiesAlive: 0
   enemiesSpawnedThisWave: 0
   maxEnemiesThisWave: 2
@@ -9506,7 +9506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &656602529
 RectTransform:
   m_ObjectHideFlags: 0
