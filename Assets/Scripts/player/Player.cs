@@ -27,6 +27,9 @@ public class Player : MonoBehaviour, IDamageable
     public float moveSpeed;
     public float damageRageBuildUp;
     public float sprintSpeed;
+    public float healthRegenRate = 0.5f;
+    public float regenDelay = 3.0f;
+    private float lastDamageTime;
     [Header("Player components")]
     public GameObject player;
     public Animator anim;
@@ -40,7 +43,10 @@ public class Player : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        
+        if (Health < MaxHealth && Health > 0 && Time.time >= lastDamageTime + regenDelay)
+        {
+            Health = Mathf.Min(Health + healthRegenRate * Time.deltaTime, MaxHealth);
+        }
     }
     public void OnAttack()
     {
@@ -48,6 +54,7 @@ public class Player : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float amount)
     {
+        lastDamageTime = Time.time;
         float finalDamage = rageScript.enraged ? amount * rageDmgReduction : amount;
         Health -= amount;
         damageAudio.PlayOneShot(damageClip);

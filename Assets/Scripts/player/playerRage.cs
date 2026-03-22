@@ -142,14 +142,19 @@ public class playerRage : MonoBehaviour
         currentState = rageState.Normal;
     }
     private bool isDead = false;
-
-    public void StopRage()
+    public void ResetRage()
     {
-        isDead = true;
         StopAllCoroutines();
         enraged = false;
         cooldown = false;
         currentState = rageState.Normal;
         player.Rage = 0f;
+        closestEnemy = null;
+        closestDist = Mathf.Infinity;
+    }
+    public void StopRage()
+    {
+        isDead = true;
+        ResetRage();
     }
 } 
