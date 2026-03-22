@@ -46,6 +46,7 @@ public class gameManager : MonoBehaviour
     public void startWave()
     {
         currentWave++;
+       
         if (currentWave > totalWaves) { Debug.Log("You win!"); return; }
         enemiesSpawnedThisWave = 0;
         switch (currentWave)

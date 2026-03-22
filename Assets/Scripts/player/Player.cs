@@ -13,6 +13,10 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField]private float rage;
     [SerializeField] private playerRage rageScript;
     [SerializeField] private playerCombat combat;
+    [SerializeField] private AudioSource footSteps;
+   
+    [SerializeField] private AudioClip Attack;
+  
     public float Rage
     {
         get { return rage; }

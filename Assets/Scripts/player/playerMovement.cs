@@ -8,8 +8,11 @@ public class playerMovement : MonoBehaviour
     [Header("Movement Components")]
    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Camera Camera;
-    
-    
+    [SerializeField] private AudioSource footsteps;
+    [SerializeField] private AudioClip footStep;
+    private float footstepTimer;
+    [SerializeField] private float footstepInterval = 0.3f;
+
     public bool isSprinting;
     [Header("Scripts")]
     [SerializeField] private Player player;
@@ -39,6 +42,13 @@ public class playerMovement : MonoBehaviour
         rb.linearVelocity = moveDirection * currentSpeed;
         if(input.magnitude > 0.1f)
         {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0f)
+            {
+                footsteps.PlayOneShot(footStep);
+                footstepTimer = isSprinting ? footstepInterval * 0.65f : footstepInterval;
+            }
+  
             player.anim.SetBool("1_Move", true);
             player.anim.SetFloat("animSpeed", isSprinting ? 1.5f : 1f);
             bool isMovingVertical = Mathf.Abs(input.y) > 0.5f;
@@ -50,6 +60,8 @@ public class playerMovement : MonoBehaviour
         }
         else
         {
+
+            footstepTimer = 0f;
             player.anim.SetBool("1_Move", false);
             player.anim.SetFloat("animSpeed", 1f);
         }
