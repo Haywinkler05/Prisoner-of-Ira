@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,47 +5,75 @@ public interface IUpgradable
 {
     string upgradeName { get; }
     string upgradeDescription { get; }
-    void  Apply();
+    void Apply(Player player, playerCombat combat, playerRage rage, playerMovement movement);
 }
 
 public class upgradeManager : MonoBehaviour
 {
     public static upgradeManager instance;
-    public List<GameObject> coolUpgrades;
-    public List<GameObject> rageUpgrades;
-    public Transform upgrade1Spawn;
-    public Transform upgrade2Spawn;
+    public List<Upgrades> coolUpgrades;
+    public List<Upgrades> rageUpgrades;
     public bool hasUpgraded;
-    private GameObject spawned1;
-    private GameObject spawned2;
+
+    [Header("UI")]
+    [SerializeField] private UpgradeScreen upgradeScreen;
+    [SerializeField] private UpgradeCardUI card1;
+    [SerializeField] private UpgradeCardUI card2;
+
+    [Header("Player References")]
+    private Player player;
+    private playerCombat combat;
+    private playerRage rage;
+    private playerMovement movement;
+
+    private Upgrades currentCoolUpgrade;
+    private Upgrades currentRageUpgrade;
     private int lastCoolIndex;
     private int lastRageIndex;
+
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
+
+    private void Start()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.GetComponent<Player>();
+            combat = playerObj.GetComponentInChildren<playerCombat>();
+            rage = playerObj.GetComponentInChildren<playerRage>();
+            movement = playerObj.GetComponentInChildren<playerMovement>();
+        }
+    }
+
     public void spawnUpgrades()
     {
         lastCoolIndex = Random.Range(0, coolUpgrades.Count);
-        spawned1 = Instantiate(coolUpgrades[lastCoolIndex], upgrade1Spawn.position, Quaternion.identity);
+        currentCoolUpgrade = coolUpgrades[lastCoolIndex];
+
         lastRageIndex = Random.Range(0, rageUpgrades.Count);
-        spawned2 = Instantiate(rageUpgrades[lastRageIndex], upgrade2Spawn.position, Quaternion.identity);
+        currentRageUpgrade = rageUpgrades[lastRageIndex];
+
+        card1.SetUpgrade(currentCoolUpgrade);
+        card2.SetUpgrade(currentRageUpgrade);
+
+        upgradeScreen.Show();
     }
-    public void processPickUp(GameObject chosenUpgrade)
+
+    public void processPickUp(Upgrades chosenUpgrade)
     {
         hasUpgraded = true;
-        if (chosenUpgrade == spawned1)
-        {
+        chosenUpgrade.Apply(player, combat, rage, movement);
+
+        if (chosenUpgrade == currentCoolUpgrade)
             coolUpgrades.RemoveAt(lastCoolIndex);
-            Destroy(spawned2);
-            
-        }
         else
-        {
-             rageUpgrades.RemoveAt(lastRageIndex);
-            Destroy(spawned1);
-        }
+            rageUpgrades.RemoveAt(lastRageIndex);
+
+        upgradeScreen.Hide();
         gameManager.instance.startWave();
     }
 }

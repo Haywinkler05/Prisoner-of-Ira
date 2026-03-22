@@ -1,20 +1,12 @@
-using TMPro;
 using UnityEngine;
-
+[CreateAssetMenu(fileName = "BloodRed", menuName = "Upgrades/BloodRed")]
 public class BloodRed : Upgrades
 {
     public override string upgradeName => "Blood Red";
-   
-
-    public override string upgradeDescription => "Rage builds slower, but enraged damage is doubled";
-    [SerializeField] private float ragePercent = 0.5f;
-   
-
-    public override void Apply()
+    public override string upgradeDescription => "Rage builds slower, but enraged damage is doubled.";
+    public override void Apply(Player player, playerCombat combat, playerRage rage, playerMovement movement)
     {
-       combat.modifyRageBuildUp(ragePercent);
-       Player.modifyRageMutiplyer(2f);
+        combat.modifyRageBuildUp(0.5f);
+        player.modifyRageMutiplyer(2f);
     }
-   
-
 }
