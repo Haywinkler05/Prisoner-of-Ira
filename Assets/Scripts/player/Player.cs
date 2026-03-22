@@ -13,9 +13,9 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField]private float rage;
     [SerializeField] private playerRage rageScript;
     [SerializeField] private playerCombat combat;
-    [SerializeField] private AudioSource footSteps;
+    [SerializeField] private AudioSource damageAudio;
    
-    [SerializeField] private AudioClip Attack;
+    [SerializeField] private AudioClip damageClip;
   
     public float Rage
     {
@@ -49,6 +49,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         float finalDamage = rageScript.enraged ? amount * rageDmgReduction : amount;
         Health -= amount;
+        damageAudio.PlayOneShot(damageClip);
         if(!rageScript.cooldown && !rageScript.enraged)rage += damageRageBuildUp;
         if (Health <= 0f) {
 
