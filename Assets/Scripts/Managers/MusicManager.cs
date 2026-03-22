@@ -1,72 +1,158 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using System.Collections;
 
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager instance;
-    [SerializeField] private AudioSource ambientSource;
-    [SerializeField] private AudioSource distortionSource;
-    [SerializeField] private AudioSource heavySource;
 
-    [Header("Timings")]
-    [SerializeField] private float transitionTime = 0.6f;
-    [SerializeField] private float heavyDropTimestamp = 4.0f;
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource gameAmbientSource;
+    [SerializeField] private AudioSource upgradeSource;
+    [SerializeField] private AudioSource gameOverSource;
+    [SerializeField] private AudioSource gameWinSource;
+
+    [Header("Audio Mixer")]
+    [SerializeField] private AudioMixer gameMixer;
+
+    [Header("Transition Settings")]
+    [SerializeField] private float crossfadeDuration = 2f;
+    [SerializeField] private float rageTransitionTime = 3.5f;
+
+    [Header("Rage Effect Settings")]
+    [SerializeField] private float maxDistortion = 0.2f;
+    [SerializeField] private float minPitch = 0.9f;
+    [SerializeField] private float maxPitch = 1.15f;
+
     [Header("Scripts")]
     [SerializeField] private Player player;
     [SerializeField] private playerRage rage;
-    private float _fadeVelocityAmbient;
-    private float _fadeVelocityDistortion;
-    private float _fadeVelocityHeavy;
 
-    public float TargetRage { get; set; } 
-    private bool _isRaging;
+    private bool _gameEnded = false;
+    private bool _inUpgrade = false;
+
+    public float TargetRage { get; set; }
+
     private void Awake()
     {
         instance = this;
-
     }
 
     private void Start()
     {
-        ambientSource.Play();
-        distortionSource.Play();
-        distortionSource.volume = 0;
+        // Start all sources silent except game ambient
+        gameAmbientSource.volume = 0f;
+        gameAmbientSource.Play();
+        StartCoroutine(FadeSource(gameAmbientSource, 1f, crossfadeDuration));
 
-        heavySource.Stop();
+        if (upgradeSource != null) { upgradeSource.volume = 0f; upgradeSource.Play(); }
+        if (gameOverSource != null) { gameOverSource.volume = 0f; gameOverSource.Play(); }
+        if (gameWinSource != null) { gameWinSource.volume = 0f; gameWinSource.Play(); }
+
+        gameMixer.SetFloat("RageDistortion", 0f);
+        gameMixer.SetFloat("RagePitch", 1.0f);
     }
+
     private void Update()
     {
-        if (rage.enraged && !heavySource.isPlaying) {
-            if(heavySource.time < heavyDropTimestamp)
-            {
-                heavySource.time = heavyDropTimestamp;
-            }
-           
-            heavySource.Play();
-        }
+        if (_gameEnded || _inUpgrade) return;
 
         float normalizedRage = Mathf.Clamp01(player.Rage / player.maxRage);
-
-        UpdateVolumes(normalizedRage);
+        UpdateMixerEffects(normalizedRage);
     }
-    private void UpdateVolumes(float normalizedRage)
+
+    private void UpdateMixerEffects(float normalizedRage)
     {
-        
-        float targetAmb = rage.enraged ? 0.2f : 1.0f;
+        float distortionT = Mathf.Clamp01((normalizedRage - 0.3f) / 0.7f);
+        float targetDistortion = rage.enraged ? maxDistortion : Mathf.Lerp(0f, maxDistortion * 0.5f, distortionT);
+        float targetPitch = rage.enraged ? maxPitch : Mathf.Lerp(1.0f, minPitch, distortionT);
 
-        
-        float targetDist = (rage.enraged || normalizedRage > 0.5f) ? 0.7f : 0.0f;
+        gameMixer.GetFloat("RageDistortion", out float currentDist);
+        gameMixer.GetFloat("RagePitch", out float currentPitch);
 
-        float targetHeavy = rage.enraged ? 1.0f : 0.0f;
+        gameMixer.SetFloat("RageDistortion", Mathf.MoveTowards(currentDist, targetDistortion, Time.deltaTime / rageTransitionTime));
+        gameMixer.SetFloat("RagePitch", Mathf.MoveTowards(currentPitch, targetPitch, Time.deltaTime / rageTransitionTime));
 
-    
-        ambientSource.volume = Mathf.SmoothDamp(ambientSource.volume, targetAmb, ref _fadeVelocityAmbient, transitionTime);
-        distortionSource.volume = Mathf.SmoothDamp(distortionSource.volume, targetDist, ref _fadeVelocityDistortion, transitionTime);
-        heavySource.volume = Mathf.SmoothDamp(heavySource.volume, targetHeavy, ref _fadeVelocityHeavy, transitionTime);
+        // Duck volume slightly during distortion
+        float targetVol = Mathf.Lerp(1f, 0.7f, targetDistortion / maxDistortion);
+        gameAmbientSource.volume = Mathf.MoveTowards(gameAmbientSource.volume, targetVol, Time.deltaTime / rageTransitionTime);
+    }
 
+    public void EnterUpgradeMusic()
+    {
+        _inUpgrade = true;
+        ResetMixerEffects();
+        StartCoroutine(CrossfadeTo(upgradeSource, gameAmbientSource));
+    }
 
-        if (!rage.enraged && heavySource.volume < 0.01f && heavySource.isPlaying)
+    public void ExitUpgradeMusic()
+    {
+        _inUpgrade = false;
+        StartCoroutine(CrossfadeTo(gameAmbientSource, upgradeSource));
+    }
+
+    public void PlayGameOver()
+    {
+        _gameEnded = true;
+        ResetMixerEffects();
+        StartCoroutine(CrossfadeTo(gameOverSource, gameAmbientSource));
+    }
+
+    public void PlayGameWin()
+    {
+        _gameEnded = true;
+        ResetMixerEffects();
+        StartCoroutine(CrossfadeTo(gameWinSource, gameAmbientSource));
+    }
+
+    private void ResetMixerEffects()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ResetMixerCoroutine());
+    }
+
+    private IEnumerator ResetMixerCoroutine()
+    {
+        float t = 0f;
+        gameMixer.GetFloat("RageDistortion", out float startDist);
+        gameMixer.GetFloat("RagePitch", out float startPitch);
+
+        while (t < 1f)
         {
-            heavySource.Pause();
+            t += Time.unscaledDeltaTime / crossfadeDuration;
+            gameMixer.SetFloat("RageDistortion", Mathf.Lerp(startDist, 0f, t));
+            gameMixer.SetFloat("RagePitch", Mathf.Lerp(startPitch, 1f, t));
+            yield return null;
         }
+    }
+
+    private IEnumerator CrossfadeTo(AudioSource fadeIn, AudioSource fadeOut)
+    {
+        float t = 0f;
+        float startFadeOut = fadeOut.volume;
+
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / crossfadeDuration;
+            fadeIn.volume = Mathf.Clamp01(t);
+            fadeOut.volume = Mathf.Lerp(startFadeOut, 0f, t);
+            yield return null;
+        }
+
+        fadeOut.volume = 0f;
+        fadeIn.volume = 1f;
+    }
+
+    private IEnumerator FadeSource(AudioSource source, float targetVolume, float duration)
+    {
+        float t = 0f;
+        float start = source.volume;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / duration;
+            source.volume = Mathf.Lerp(start, targetVolume, t);
+            yield return null;
+        }
+        source.volume = targetVolume;
     }
 }

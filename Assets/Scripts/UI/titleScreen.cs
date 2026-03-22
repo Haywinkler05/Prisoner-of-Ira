@@ -92,7 +92,7 @@ public class titleScreen : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

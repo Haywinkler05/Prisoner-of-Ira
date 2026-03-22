@@ -26,6 +26,7 @@ public class gameOver : MonoBehaviour
 
     public void Show()
     {
+        if (MusicManager.instance != null) MusicManager.instance.PlayGameOver();
         gameObject.SetActive(true);
         Time.timeScale = 0f;
         StartCoroutine(RevealSequence());

@@ -17,6 +17,7 @@ public class UpgradeScreen : MonoBehaviour
 
     public void Show()
     {
+        if (MusicManager.instance != null) MusicManager.instance.EnterUpgradeMusic();
         gameObject.SetActive(true);
         Time.timeScale = 0f;
         StartCoroutine(Fade(0f, 1f));
@@ -41,6 +42,7 @@ public class UpgradeScreen : MonoBehaviour
 
     private IEnumerator FadeAndHide()
     {
+        if (MusicManager.instance != null) MusicManager.instance.ExitUpgradeMusic();
         yield return StartCoroutine(Fade(1f, 0f));
         Time.timeScale = 1f;
         gameObject.SetActive(false);

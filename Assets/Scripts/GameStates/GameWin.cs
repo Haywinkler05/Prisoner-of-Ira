@@ -29,6 +29,7 @@ public class GameWin : MonoBehaviour
     {
         gameObject.SetActive(true);
         Time.timeScale = 0f;
+        if (MusicManager.instance != null) MusicManager.instance.PlayGameWin();
         StartCoroutine(RevealSequence());
     }
 
