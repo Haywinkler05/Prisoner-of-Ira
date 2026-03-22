@@ -57,8 +57,8 @@ public class upgradeManager : MonoBehaviour
         lastRageIndex = Random.Range(0, rageUpgrades.Count);
         currentRageUpgrade = rageUpgrades[lastRageIndex];
 
-        card1.SetUpgrade(currentCoolUpgrade);
-        card2.SetUpgrade(currentRageUpgrade);
+        card1.SetUpgrade(currentRageUpgrade);
+        card2.SetUpgrade(currentCoolUpgrade);
 
         upgradeScreen.Show();
     }

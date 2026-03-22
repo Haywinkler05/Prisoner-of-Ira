@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 
 public class UpgradeCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -11,9 +12,15 @@ public class UpgradeCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private float hoverHeight = 20f;
     [SerializeField] private float hoverSpeed = 5f;
     private bool isHovering;
+    [SerializeField] private AudioClip hoverSound;
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
+        audioSource.volume = 0.5f;
         StartCoroutine(CaptureOriginalPos());
     }
 
@@ -37,7 +44,12 @@ public class UpgradeCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         descriptionText.text = upgrade.upgradeDescription;
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => isHovering = true;
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isHovering = true;
+        if (hoverSound != null)
+            audioSource.PlayOneShot(hoverSound);
+    }
     public void OnPointerExit(PointerEventData eventData) => isHovering = false;
 
     public void OnPointerClick(PointerEventData eventData)
