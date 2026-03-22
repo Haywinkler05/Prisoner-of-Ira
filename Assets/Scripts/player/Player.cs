@@ -56,8 +56,9 @@ public class Player : MonoBehaviour, IDamageable
     {
         lastDamageTime = Time.time;
         float finalDamage = rageScript.enraged ? amount * rageDmgReduction : amount;
-        Health -= amount;
+        Health -= finalDamage;
         damageAudio.PlayOneShot(damageClip);
+        if (VFXManager.instance != null) VFXManager.instance.OnHit();
         if(!rageScript.cooldown && !rageScript.enraged)rage += damageRageBuildUp;
         if (Health <= 0f) {
 

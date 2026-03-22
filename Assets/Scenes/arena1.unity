@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gameManager
   currentWave: 0
-  totalWaves: 1
+  totalWaves: 3
   enemiesAlive: 0
   enemiesSpawnedThisWave: 0
   maxEnemiesThisWave: 2
@@ -1000,6 +1000,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7cdc7f5f03b38409f92c727b27e056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::combatManager
+--- !u!1 &361645651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361645652}
+  - component: {fileID: 361645653}
+  m_Layer: 0
+  m_Name: VFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &361645652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361645651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073984779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361645653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361645651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e18c0c2af07da4d970d963978b6ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXManager
+  postVolume: {fileID: 666929857}
+  vignetteBaseIntensity: 0.3
+  vignetteRageIntensity: 0.6
+  vignettePulseSpeed: 2
+  maxChromaticIntensity: 0.8
+  player: {fileID: 784583674}
+  rage: {fileID: 963847666}
 --- !u!1 &363193818
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1624,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -2297,6 +2348,7 @@ MonoBehaviour:
   descriptionText: {fileID: 2106489287}
   hoverHeight: 20
   hoverSpeed: 5
+  hoverSound: {fileID: 8300000, guid: 2d4287068404e9f4d96bf1944cc44557, type: 3}
 --- !u!114 &560710572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9716,6 +9768,55 @@ MonoBehaviour:
   flickerMinInterval: 0.08
   flickerMaxInterval: 0.3
   flickerMinAlpha: 0.6
+--- !u!1 &666929856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 666929858}
+  - component: {fileID: 666929857}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &666929857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666929856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: cd3d27d3000b2594ca66a518c9121bfe, type: 2}
+--- !u!4 &666929858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666929856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.021822, y: -2.777719, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &683427204
 GameObject:
   m_ObjectHideFlags: 0
@@ -10277,6 +10378,7 @@ GameObject:
   - component: {fileID: 836902208}
   - component: {fileID: 836902211}
   - component: {fileID: 836902210}
+  - component: {fileID: 836902212}
   m_Layer: 0
   m_Name: musicManager
   m_TagString: Untagged
@@ -10310,7 +10412,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 7911d9ab6bf93cd40adfd2fa6cd2a23c, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 55795ffcb1d1c194da89e742fa87c99c, type: 3}
+  m_Resource: {fileID: 8300000, guid: ed5d198b6ac84064c815ee3703c7cf6e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -10408,11 +10510,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d22f26defdec334aae4f92c493f90e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
-  ambientSource: {fileID: 836902208}
+  gameAmbientSource: {fileID: 836902208}
+  upgradeSource: {fileID: 836902212}
   gameOverSource: {fileID: 836902211}
-  gameWinSource: {fileID: 836902210}
+  gameWinSource: {fileID: 836902211}
   gameMixer: {fileID: 24100000, guid: 7911d9ab6bf93cd40adfd2fa6cd2a23c, type: 2}
-  transitionTime: 0.6
+  crossfadeDuration: 2
+  rageTransitionTime: 3.5
   maxDistortion: 0.2
   minPitch: 0.9
   maxPitch: 1.15
@@ -10527,6 +10631,103 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 6a2dc9e5601b7bc43aac5e112051b4f2, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &836902212
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836902204}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: dd9a082115081d6438f6cf6a451d5d7d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -13241,6 +13442,7 @@ Transform:
   - {fileID: 947695745}
   - {fileID: 836902205}
   - {fileID: 982000488}
+  - {fileID: 361645652}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1082209328
@@ -13971,6 +14173,7 @@ MonoBehaviour:
   descriptionText: {fileID: 478270112}
   hoverHeight: 20
   hoverSpeed: 5
+  hoverSound: {fileID: 8300000, guid: 2d4287068404e9f4d96bf1944cc44557, type: 3}
 --- !u!114 &1241450426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15205,7 +15408,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 100
+  m_Spacing: 50
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -18650,3 +18853,4 @@ SceneRoots:
   - {fileID: 424840335}
   - {fileID: 49362704}
   - {fileID: 605807731}
+  - {fileID: 666929858}
