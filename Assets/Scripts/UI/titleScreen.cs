@@ -13,6 +13,7 @@ public class titleScreen : MonoBehaviour
     public CanvasGroup creditsButtonGroup;
     public CanvasGroup quitButtonGroup;
     public CanvasGroup fadeGroup;
+    public CreditsPanel creditsPanel;
 
     [Header("Flicker Settings")]
     public float flickerMinInterval = 0.08f;
@@ -94,7 +95,12 @@ public class titleScreen : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    
 
+    public void OpenCredits()
+    {
+        creditsPanel.Show();
+    }
     public void QuitGame()
     {
         Application.Quit();
