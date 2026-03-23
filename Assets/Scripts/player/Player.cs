@@ -76,6 +76,7 @@ public class Player : MonoBehaviour, IDamageable
  
     private void Die()
     {
+        GetComponentInChildren<playerMovement>().enabled = false;
         rageScript.StopRage();
         anim.ResetTrigger("2_Attack");
         foreach (AnimatorControllerParameter param in anim.parameters)

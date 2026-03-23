@@ -64,7 +64,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
                     {
                         Vector2 pushDir = (transform.position - nearby.transform.position).normalized;
                         float dist = Vector2.Distance(transform.position, nearby.transform.position);
-                        separationForce += pushDir * (1.5f / Mathf.Max(dist, 0.1f));
+                        separationForce += pushDir * (0.8f / Mathf.Max(dist, 0.1f));
                     }
                 }
 
