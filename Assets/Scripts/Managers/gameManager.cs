@@ -67,6 +67,7 @@ public class gameManager : MonoBehaviour
 
     public void startWave()
     {
+        spawn.ResetWave();
         currentWave++;
 
         if (currentWave > totalWaves) return;

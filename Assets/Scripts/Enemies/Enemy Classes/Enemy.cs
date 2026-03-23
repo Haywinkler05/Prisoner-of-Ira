@@ -33,7 +33,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private EnemyHealthUI healthUI;
     [SerializeField] private float chaseStartDistance = 1.7f;
     public float enemyMoveSpeed;
-
+    public enum EnemyDifficulty { Easy, Medium, Hard }
+    public EnemyDifficulty difficulty;
     public float Health { get { return _health; } set { _health = value; } }
     public float MaxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
     public float Damage { get { return _damage; } set { _damage = value; } }
