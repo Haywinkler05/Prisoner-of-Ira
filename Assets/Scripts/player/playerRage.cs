@@ -14,7 +14,7 @@ public class playerRage : MonoBehaviour
     [SerializeField] private float rage;
     [SerializeField] private float rageDecayRate = 0.1f;
     [SerializeField] private float rageDrainPerSecond = 0.33f;
-    [SerializeField] private float coolDownDuration = 5f;
+    [SerializeField] public float coolDownDuration = 5f;
     public bool enraged;
     public bool cooldown;
     [SerializeField] private rageState currentState;
@@ -28,7 +28,7 @@ public class playerRage : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private playerCombat combat;
     [SerializeField] private playerMovement movement;
-
+    public bool fillOnKill = false;
     void Start()
     {
         playerOBJ = player.player;

@@ -129,6 +129,17 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         _animator.SetTrigger("4_Death");
         GetComponent<Collider2D>().enabled = false;
+
+        // fillOnKill check
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            Player p = playerObj.GetComponent<Player>();
+            playerRage r = playerObj.GetComponentInChildren<playerRage>();
+            if (p != null && r != null && r.fillOnKill)
+                p.Rage = p.maxRage;
+        }
+
         StartCoroutine(death());
     }
 

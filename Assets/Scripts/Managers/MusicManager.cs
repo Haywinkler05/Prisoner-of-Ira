@@ -94,17 +94,20 @@ public class MusicManager : MonoBehaviour
     public void PlayGameOver()
     {
         _gameEnded = true;
-        ResetMixerEffects();
+        _inUpgrade = false;
+        StopAllCoroutines();
+        StartCoroutine(ResetMixerCoroutine());
         StartCoroutine(CrossfadeTo(gameOverSource, gameAmbientSource));
     }
 
     public void PlayGameWin()
     {
         _gameEnded = true;
-        ResetMixerEffects();
+        _inUpgrade = false;
+        StopAllCoroutines();
+        StartCoroutine(ResetMixerCoroutine());
         StartCoroutine(CrossfadeTo(gameWinSource, gameAmbientSource));
     }
-
     private void ResetMixerEffects()
     {
         StopAllCoroutines();

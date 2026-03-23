@@ -19,6 +19,8 @@ public class playerCombat : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private Player player;
     [SerializeField] private playerRage rage;
+
+    public bool enableLastStand = false;
     void Start()
     {
         
@@ -50,6 +52,11 @@ public class playerCombat : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 float finalDmg = rage.enraged ? player.rageDamage : player.damage;
+                if (enableLastStand)
+                {
+                    float healthPercent = player.Health / player.MaxHealth;
+                    finalDmg *= healthPercent < 0.3f ? 3f : 0.5f;
+                }
                 combatManager.Instance.requestDamage(enemy.gameObject, finalDmg);
             }
         }

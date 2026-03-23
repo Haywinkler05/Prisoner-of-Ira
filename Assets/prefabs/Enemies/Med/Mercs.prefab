@@ -172,7 +172,7 @@ MonoBehaviour:
   attackPoint: {fileID: 8898042671282815149}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   healthUI: {fileID: 4630326174972871843}
   chaseStartDistance: 1.7
   enemyMoveSpeed: 7

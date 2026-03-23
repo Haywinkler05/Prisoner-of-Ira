@@ -27,8 +27,12 @@ public class spawnEnemy : MonoBehaviour
     public void spawn()
     {
         GameObject prefab = GetEnemyForCurrentWave();
-        if (prefab == null) return;
-
+        Debug.Log($"Spawning: {prefab}, wave: {gameManager.instance.currentWave}, hardSpawned: {hardEnemySpawnedThisWave}");
+        if (prefab == null)
+        {
+            Debug.Log("Prefab null - incrementing anyway?");
+            return;
+        }
         Vector2 spawnPos = (Vector2)spawnArea.position + Random.insideUnitCircle * spawnRadius;
         Instantiate(prefab, spawnPos, Quaternion.identity);
         gameManager.instance.enemiesAlive++;

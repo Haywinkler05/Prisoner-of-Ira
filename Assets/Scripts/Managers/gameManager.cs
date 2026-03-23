@@ -104,16 +104,12 @@ public class gameManager : MonoBehaviour
 
     public void TriggerWin()
     {
-        gameWinPanel.SetActive(true);
-
         if (EscapeTimer.instance != null)
         {
             EscapeTimer.instance.StopTimer();
             timeText.text = "Best Time: " + EscapeTimer.instance.GetFinalTime();
         }
-
-
         GameWin.instance.Show();
-        if (MusicManager.instance != null) MusicManager.instance.TargetRage = 0f;
+        if (MusicManager.instance != null) MusicManager.instance.PlayGameWin();
     }
 }
